@@ -15,36 +15,40 @@ from variable import variable
 def processCommand(cmd):
     cmd=cmd.split(' ')
     if cmd[0]=='send':
-        cmd=' '.join(cmd[1:])
-        variable.ws.send(cmd)
+        if len(cmd)>1:
+            cmd=' '.join(cmd[1:])
+            variable.ws.send(cmd)
     elif cmd[0]=='plugin':
-        cmd=cmd[1:]
-        if cmd[0]=='load':
-            cmd=' '.join(cmd[1:])
-            variable.loader.load_plugin(cmd)
-        elif cmd[0]=='reg':
-            cmd=' '.join(cmd[1:])
-            variable.loader.register_plugin(cmd)
-        elif cmd[0]=='enable':
-            cmd=' '.join(cmd[1:])
-            variable.loader.enable_plugin(cmd)
-        elif cmd[0]=='disable':
-            cmd=' '.join(cmd[1:])
-            variable.loader.disable_plugin(cmd)
-        elif cmd[0]=='unreg':
-            cmd=' '.join(cmd[1:])
-            variable.loader.unregister_plugin(cmd)
-        elif cmd[0]=='unload':
-            cmd=' '.join(cmd[1:])
-            variable.loader.unload_plugin(cmd)
-        elif cmd[0]=='list':
-            variable.loader.list_plugins()
-        elif cmd[0]=='view':
-            cmd=' '.join(cmd[1:])
-            variable.loader.view_plugin(cmd)
-        elif cmd[0]=='reload':
-            cmd=' '.join(cmd[1:])
-            variable.loader.reload_plugin(cmd)
+        if len(cmd)>1:
+            cmd=cmd[1:]
+            if cmd[0]=='load':
+                cmd=' '.join(cmd[1:])
+                variable.loader.load_plugin(cmd)
+            elif cmd[0]=='reg':
+                cmd=' '.join(cmd[1:])
+                variable.loader.register_plugin(cmd)
+            elif cmd[0]=='enable':
+                cmd=' '.join(cmd[1:])
+                variable.loader.enable_plugin(cmd)
+            elif cmd[0]=='disable':
+                cmd=' '.join(cmd[1:])
+                variable.loader.disable_plugin(cmd)
+            elif cmd[0]=='unreg':
+                cmd=' '.join(cmd[1:])
+                variable.loader.unregister_plugin(cmd)
+            elif cmd[0]=='unload':
+                cmd=' '.join(cmd[1:])
+                variable.loader.unload_plugin(cmd)
+            elif cmd[0]=='list':
+                variable.loader.list_plugins()
+            elif cmd[0]=='view':
+                cmd=' '.join(cmd[1:])
+                variable.loader.view_plugin(cmd)
+            elif cmd[0]=='reload':
+                cmd=' '.join(cmd[1:])
+                variable.loader.reload_plugin(cmd)
+            else:
+                print("子命令:\nload <filename> - 加载插件\nreg <id> - 注册插件\nenable <id> - 启用插件\ndisable <id> - 禁用插件\nunreg <id> - 注销插件\nunload <id> - 卸载插件\nlist - 列出插件\nview <id> - 查看插件信息\nreload <id> - 重载插件")
         else:
             print("子命令:\nload <filename> - 加载插件\nreg <id> - 注册插件\nenable <id> - 启用插件\ndisable <id> - 禁用插件\nunreg <id> - 注销插件\nunload <id> - 卸载插件\nlist - 列出插件\nview <id> - 查看插件信息\nreload <id> - 重载插件")
     elif cmd[0]=='help' or cmd[0]=='?':
