@@ -367,8 +367,8 @@ class PluginLoader(object):
                     os.makedirs('data/'+id)
                 data_dir=os.path.abspath('data/'+id)
                 plugin_logger=logging.getLogger(self.plugin_infos[id]['info'].plugin_name)
-                register=getattr(plugin,self.plugin_methods[id]['register']['func'],data_dir)
-                register(plugin_logger,variable.util,variable.bot)
+                register=getattr(plugin,self.plugin_methods[id]['register']['func'])
+                register(plugin_logger,variable.util,variable.bot,data_dir)
                 plugin.status="registered"
                 self.plugin_registers[id]=plugin
                 del plugin
