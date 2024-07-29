@@ -8,14 +8,15 @@ class Processer(object):
     def processMessage(self,msg):
         try:
             msg=json.loads(msg)
+            if "echo" in msg:
+                variable.util.put_retmsg(msg)
+                return
             if msg['self_id']!=variable.bot_id:
-                pass
+                return
             else:
                 raw_thread=threading.Thread(target=self.raw_ws_process,args=(msg,))
                 raw_thread.start()
-                if "echo" in msg:
-                    variable.util.put_retmsg(msg)
-                elif "status" in msg:
+                if "status" in msg:
                     if "meta_event_type" in msg and msg['meta_event_type']=='heartbeat':
                         variable.bot.set_status(msg['status']['online'])
                     else:

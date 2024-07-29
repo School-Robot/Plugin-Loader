@@ -26,6 +26,7 @@ class Util(object):
                 return False,'message is empty'
             uid=uuid.uuid4().hex
             m={"action":"send_private_msg","params":{"user_id":user_id,"message":message,"auto_escape":auto_escape},"echo":uid}
+            logger.info(f"向 ({m['params']['user_id']}) 发送私聊消息: {m['params']['message']}")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -48,6 +49,7 @@ class Util(object):
             if type(message)==list and len(message)==0:
                 return False,'message is empty'
             m={"action":"send_private_msg_async","params":{"user_id":user_id,"message":message,"auto_escape":auto_escape}}
+            logger.info(f"向 ({m['params']['user_id']}) 发送私聊消息: {m['params']['message']}")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -62,6 +64,7 @@ class Util(object):
             if type(message)==list and len(message)==0:
                 return False,'message is empty'
             m={"action":"send_private_msg_rate_limit","params":{"user_id":user_id,"message":message,"auto_escape":auto_escape}}
+            logger.info(f"向 ({m['params']['user_id']}) 发送私聊消息: {m['params']['message']}")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -77,6 +80,7 @@ class Util(object):
                 return False,'message is empty'
             uid=uuid.uuid4().hex
             m={"action":"send_group_msg","params":{"group_id":group_id,"message":message,"auto_escape":auto_escape},"echo":uid}
+            logger.info(f"向 [{m['params']['group_id']}] 发送群消息: {m['params']['message']}")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -99,6 +103,7 @@ class Util(object):
             if type(message)==list and len(message)==0:
                 return False,'message is empty'
             m={"action":"send_group_msg_async","params":{"group_id":group_id,"message":message,"auto_escape":auto_escape}}
+            logger.info(f"向 [{m['params']['group_id']}] 发送群消息: {m['params']['message']}")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -113,6 +118,7 @@ class Util(object):
             if type(message)==list and len(message)==0:
                 return False,'message is empty'
             m={"action":"send_group_msg_rate_limit","params":{"group_id":group_id,"message":message,"auto_escape":auto_escape}}
+            logger.info(f"向 [{m['params']['group_id']}] 发送群消息: {m['params']['message']}")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -135,6 +141,7 @@ class Util(object):
             if message_type=='private':
                 uid=uuid.uuid4().hex
                 m={"action":"send_msg","params":{"message_type":message_type,"user_id":user_id,"message":message,"auto_escape":auto_escape},"echo":uid}
+                logger.info(f"向 ({m['params']['user_id']}) 发送私聊消息: {m['params']['message']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid,timeout=timeout)
@@ -149,6 +156,7 @@ class Util(object):
             elif message_type=='group':
                 uid=uuid.uuid4().hex
                 m={"action":"send_msg","params":{"message_type":message_type,"group_id":group_id,"message":message,"auto_escape":auto_escape},"echo":uid}
+                logger.info(f"向 [{m['params']['group_id']}] 发送群消息: {m['params']['message']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid,timeout=timeout)
@@ -164,6 +172,7 @@ class Util(object):
                 if user_id is None:
                     uid=uuid.uuid4().hex
                     m={"action":"send_msg","params":{"group_id":group_id,"message":message,"auto_escape":auto_escape},"echo":uid}
+                    logger.info(f"向 [{m['params']['group_id']}] 发送群消息: {m['params']['message']}")
                     m=json.dumps(m)
                     variable.ws.send(m)
                     ret=self.waitFor(uid,timeout=timeout)
@@ -178,6 +187,7 @@ class Util(object):
                 elif group_id is None:
                     uid=uuid.uuid4().hex
                     m={"action":"send_msg","params":{"user_id":user_id,"message":message,"auto_escape":auto_escape},"echo":uid}
+                    logger.info(f"向 ({m['params']['user_id']}) 发送私聊消息: {m['params']['message']}")
                     m=json.dumps(m)
                     variable.ws.send(m)
                     ret=self.waitFor(uid,timeout=timeout)
@@ -209,22 +219,26 @@ class Util(object):
                 return False,'message is empty'
             if message_type=='private':
                 m={"action":"send_msg_async","params":{"message_type":message_type,"user_id":user_id,"message":message,"auto_escape":auto_escape}}
+                logger.info(f"向 ({m['params']['user_id']}) 发送私聊消息: {m['params']['message']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
             elif message_type=='group':
                 m={"action":"send_msg_async","params":{"message_type":message_type,"group_id":group_id,"message":message,"auto_escape":auto_escape}}
+                logger.info(f"向 [{m['params']['group_id']}] 发送群消息: {m['params']['message']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
             else:
                 if user_id is None:
                     m={"action":"send_msg_async","params":{"group_id":group_id,"message":message,"auto_escape":auto_escape}}
+                    logger.info(f"向 [{m['params']['group_id']}] 发送群消息: {m['params']['message']}")
                     m=json.dumps(m)
                     variable.ws.send(m)
                     return True,'async'
                 elif group_id is None:
                     m={"action":"send_msg_async","params":{"user_id":user_id,"message":message,"auto_escape":auto_escape}}
+                    logger.info(f"向 ({m['params']['user_id']}) 发送私聊消息: {m['params']['message']}")
                     m=json.dumps(m)
                     variable.ws.send(m)
                     return True,'async'
@@ -248,22 +262,26 @@ class Util(object):
                 return False,'message is empty'
             if message_type=='private':
                 m={"action":"send_msg_rate_limit","params":{"message_type":message_type,"user_id":user_id,"message":message,"auto_escape":auto_escape}}
+                logger.info(f"向 ({m['params']['user_id']}) 发送私聊消息: {m['params']['message']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
             elif message_type=='group':
                 m={"action":"send_msg_rate_limit","params":{"message_type":message_type,"group_id":group_id,"message":message,"auto_escape":auto_escape}}
+                logger.info(f"向 [{m['params']['group_id']}] 发送群消息: {m['params']['message']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
             else:
                 if user_id is None:
                     m={"action":"send_msg_rate_limit","params":{"group_id":group_id,"message":message,"auto_escape":auto_escape}}
+                    logger.info(f"向 [{m['params']['group_id']}] 发送群消息: {m['params']['message']}")
                     m=json.dumps(m)
                     variable.ws.send(m)
                     return True,'async'
                 elif group_id is None:
                     m={"action":"send_msg_rate_limit","params":{"user_id":user_id,"message":message,"auto_escape":auto_escape}}
+                    logger.info(f"向 ({m['params']['user_id']}) 发送私聊消息: {m['params']['message']}")
                     m=json.dumps(m)
                     variable.ws.send(m)
                     return True,'async'
@@ -277,6 +295,7 @@ class Util(object):
         if self.check_auth(auth,'delete_msg'):
             uid=uuid.uuid4().hex
             m={"action":"delete_msg","params":{"message_id":message_id},"echo":uid}
+            logger.info(f"撤回消息ID: {m['params']['message_id']}")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -295,6 +314,7 @@ class Util(object):
     def delete_msg_async(self,auth,message_id):
         if self.check_auth(auth,'delete_msg'):
             m={"action":"delete_msg_async","params":{"message_id":message_id}}
+            logger.info(f"撤回消息ID: {m['params']['message_id']}")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -306,6 +326,7 @@ class Util(object):
         if self.check_auth(auth,'get_msg'):
             uid=uuid.uuid4().hex
             m={"action":"get_msg","params":{"message_id":message_id},"echo":uid}
+            logger.debug(f"获取消息ID: {m['params']['message_id']}")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -325,6 +346,7 @@ class Util(object):
         if self.check_auth(auth,'get_forward_msg'):
             uid=uuid.uuid4().hex
             m={"action":"get_forward_msg","params":{"id":id},"echo":uid}
+            logger.debug(f"获取合并转发消息ID: {m['params']['id']}")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -348,6 +370,7 @@ class Util(object):
                 times=1
             uid=uuid.uuid4().hex
             m={"action":"send_like","params":{"user_id":user_id,"times":times},"echo":uid}
+            logger.info(f"向 ({m['params']['user_id']}) 发送赞: {m['params']['times']}")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -370,6 +393,7 @@ class Util(object):
             if times<1:
                 times=1
             m={"action":"send_like_async","params":{"user_id":user_id,"times":times}}
+            logger.info(f"向 ({m['params']['user_id']}) 发送赞: {m['params']['times']}")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -381,6 +405,7 @@ class Util(object):
         if self.check_auth(auth,'set_group_kick'):
             uid=uuid.uuid4().hex
             m={"action":"set_group_kick","params":{"group_id":group_id,"user_id":user_id,"reject_add_request":reject_add_request},"echo":uid}
+            logger.info(f"将 ({m['params']['user_id']}) 移出群 [{m['params']['group_id']}]")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -399,6 +424,7 @@ class Util(object):
     def set_group_kick_async(self,auth,group_id,user_id,reject_add_request=False):
         if self.check_auth(auth,'set_group_kick'):
             m={"action":"set_group_kick_async","params":{"group_id":group_id,"user_id":user_id,"reject_add_request":reject_add_request}}
+            logger.info(f"将 ({m['params']['user_id']}) 移出群 [{m['params']['group_id']}]")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -414,6 +440,7 @@ class Util(object):
                 duration=0
             uid=uuid.uuid4().hex
             m={"action":"set_group_ban","params":{"group_id":group_id,"user_id":user_id,"duration":duration},"echo":uid}
+            logger.info(f"在 [{m['params']['group_id']}] 将 [{m['params']['user_id']}] 禁言 {m['params']['duration']} 秒")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -436,6 +463,7 @@ class Util(object):
             if duration<0:
                 duration=0
             m={"action":"set_group_ban_async","params":{"group_id":group_id,"user_id":user_id,"duration":duration}}
+            logger.info(f"在 [{m['params']['group_id']}] 将 [{m['params']['user_id']}] 禁言 {m['params']['duration']} 秒")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -454,6 +482,7 @@ class Util(object):
             if anonymous is None:
                 uid=uuid.uuid4().hex
                 m={"action":"set_group_anonymous_ban","params":{"group_id":group_id,"anonymous_flag":anonymous_flag,"duration":duration},"echo":uid}
+                logger.info(f"在 [{m['params']['group_id']}] 将匿名用户 {m['params']['anonymous_flag']} 禁言 {m['params']['duration']} 秒")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid,timeout=timeout)
@@ -468,6 +497,7 @@ class Util(object):
             else:
                 uid=uuid.uuid4().hex
                 m={"action":"set_group_anonymous_ban","params":{"group_id":group_id,"anonymous":anonymous,"duration":duration},"echo":uid}
+                logger.info(f"在 [{m['params']['group_id']}] 将匿名用户 ({m['params']['anonymous']['anonymous_flag']}) 禁言 {m['params']['duration']} 秒")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid)
@@ -491,11 +521,13 @@ class Util(object):
                 return False,
             if anonymous is None:
                 m={"action":"set_group_anonymous_ban","params":{"group_id":group_id,"anonymous_flag":anonymous_flag,"duration":duration}}
+                logger.info(f"在 [{m['params']['group_id']}] 将匿名用户 {m['params']['anonymous_flag']} 禁言 {m['params']['duration']} 秒")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
             else:
                 m={"action":"set_group_anonymous_ban","params":{"group_id":group_id,"anonymous":anonymous,"duration":duration}}
+                logger.info(f"在 [{m['params']['group_id']}] 将匿名用户 ({m['params']['anonymous']['anonymous_flag']}) 禁言 {m['params']['duration']} 秒")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
@@ -507,6 +539,7 @@ class Util(object):
         if self.check_auth(auth,'set_group_whole_ban'):
             uid=uuid.uuid4().hex
             m={"action":"set_group_whole_ban","params":{"group_id":group_id,"enable":enable},"echo":uid}
+            logger.info(f"在 [{m['params']['group_id']}] 设置全员禁言: {m['params']['enable']}")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -525,6 +558,7 @@ class Util(object):
     def set_group_whole_ban_async(self,auth,group_id,enable=True):
         if self.check_auth(auth,'set_group_whole_ban'):
             m={"action":"set_group_whole_ban_async","params":{"group_id":group_id,"enable":enable}}
+            logger.info(f"在 [{m['params']['group_id']}] 设置全员禁言: {m['params']['enable']}")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -536,6 +570,7 @@ class Util(object):
         if self.check_auth(auth,'set_group_admin'):
             uid=uuid.uuid4().hex
             m={"action":"set_group_admin","params":{"group_id":group_id,"user_id":user_id,"enable":enable},"echo":uid}
+            logger.info(f"在 [{m['params']['group_id']}] 设置管理员 ({m['params']['user_id']}) 状态: {m['params']['enable']}")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -554,6 +589,7 @@ class Util(object):
     def set_group_admin_async(self,auth,group_id,user_id,enable=True):
         if self.check_auth(auth,'set_group_admin'):
             m={"action":"set_group_admin_async","params":{"group_id":group_id,"user_id":user_id,"enable":enable}}
+            logger.info(f"在 [{m['params']['group_id']}] 设置管理员 ({m['params']['user_id']}) 状态: {m['params']['enable']}")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -565,6 +601,7 @@ class Util(object):
         if self.check_auth(auth,'set_group_anonymous'):
             uid=uuid.uuid4().hex
             m={"action":"set_group_anonymous","params":{"group_id":group_id,"enable":enable},"echo":uid}
+            logger.info(f"在 [{m['params']['group_id']}] 设置匿名聊天状态: {m['params']['enable']}")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -583,6 +620,7 @@ class Util(object):
     def set_group_anonymous_async(self,auth,group_id,enable=True):
         if self.check_auth(auth,'set_group_anonymous'):
             m={"action":"set_group_anonymous_async","params":{"group_id":group_id,"enable":enable}}
+            logger.info(f"在 [{m['params']['group_id']}] 设置匿名聊天状态: {m['params']['enable']}")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -595,6 +633,7 @@ class Util(object):
             if card is None:
                 uid=uuid.uuid4().hex
                 m={"action":"set_group_card","params":{"group_id":group_id,"user_id":user_id},"echo":uid}
+                logger.info(f"在 [{m['params']['group_id']}] 设置 ({m['params']['user_id']}) 群名片为空")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid,timeout=timeout)
@@ -609,6 +648,7 @@ class Util(object):
             else:
                 uid=uuid.uuid4().hex
                 m={"action":"set_group_card","params":{"group_id":group_id,"user_id":user_id,"card":card},"echo":uid}
+                logger.info(f"在 [{m['params']['group_id']}] 设置 ({m['params']['user_id']}) 群名片为: {m['params']['card']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid,timeout=timeout)
@@ -628,11 +668,13 @@ class Util(object):
         if self.check_auth(auth,'set_group_card'):
             if card is None:
                 m={"action":"set_group_card_async","params":{"group_id":group_id,"user_id":user_id}}
+                logger.info(f"在 [{m['params']['group_id']}] 设置 ({m['params']['user_id']}) 群名片为空")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
             else:
                 m={"action":"set_group_card_async","params":{"group_id":group_id,"user_id":user_id,"card":card}}
+                logger.info(f"在 [{m['params']['group_id']}] 设置 ({m['params']['user_id']}) 群名片为: {m['params']['card']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
@@ -646,6 +688,7 @@ class Util(object):
                 return False,'group_name is empty'
             uid=uuid.uuid4().hex
             m={"action":"set_group_name","params":{"group_id":group_id,"group_name":group_name},"echo":uid}
+            logger.info(f"在 [{m['params']['group_id']}] 设置群名为: {m['params']['group_name']}")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -666,6 +709,7 @@ class Util(object):
             if group_name=="":
                 return False,'group_name is empty'
             m={"action":"set_group_name_async","params":{"group_id":group_id,"group_name":group_name}}
+            logger.info(f"在 [{m['params']['group_id']}] 设置群名为: {m['params']['group_name']}")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -677,6 +721,7 @@ class Util(object):
         if self.check_auth(auth,'set_group_leave'):
             uid=uuid.uuid4().hex
             m={"action":"set_group_leave","params":{"group_id":group_id,"is_dismiss":is_dismiss},"echo":uid}
+            logger.info(f"退出群 [{m['params']['group_id']}]")
             m=json.dumps(m)
             variable.ws.send(m)
             ret=self.waitFor(uid,timeout=timeout)
@@ -695,6 +740,7 @@ class Util(object):
     def set_group_leave_async(self,auth,group_id,is_dismiss=False):
         if self.check_auth(auth,'set_group_leave'):
             m={"action":"set_group_leave_async","params":{"group_id":group_id,"is_dismiss":is_dismiss}}
+            logger.info(f"退出群 [{m['params']['group_id']}]")
             m=json.dumps(m)
             variable.ws.send(m)
             return True,'async'
@@ -707,6 +753,7 @@ class Util(object):
             if special_title is None:
                 uid=uuid.uuid4().hex
                 m={"action":"set_group_special_title","params":{"group_id":group_id,"user_id":user_id},"echo":uid}
+                logger.info(f"在 [{m['params']['group_id']}] 设置 ({m['params']['user_id']}) 群头衔为空")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid,timeout=timeout)
@@ -721,6 +768,7 @@ class Util(object):
             else:
                 uid=uuid.uuid4().hex
                 m={"action":"set_group_special_title","params":{"group_id":group_id,"user_id":user_id,"special_title":special_title,"duration":duration},"echo":uid}
+                logger.info(f"在 [{m['params']['group_id']}] 设置 ({m['params']['user_id']}) 群头衔为: {m['params']['special_title']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid,timeout=timeout)
@@ -740,11 +788,13 @@ class Util(object):
         if self.check_auth(auth,'set_group_special_title'):
             if special_title is None:
                 m={"action":"set_group_special_title_async","params":{"group_id":group_id,"user_id":user_id}}
+                logger.info(f"在 [{m['params']['group_id']}] 设置 ({m['params']['user_id']}) 群头衔为空")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
             else:
                 m={"action":"set_group_special_title_async","params":{"group_id":group_id,"user_id":user_id,"special_title":special_title,"duration":duration}}
+                logger.info(f"在 [{m['params']['group_id']}] 设置 ({m['params']['user_id']}) 群头衔为: {m['params']['special_title']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
@@ -757,6 +807,7 @@ class Util(object):
             if remark is None:
                 uid=uuid.uuid4().hex
                 m={"action":"set_friend_add_request","params":{"flag":flag,"approve":approve},"echo":uid}
+                logger.info(f"处理好友请求: {m['params']['flag']} {m['params']['approve']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid,timeout=timeout)
@@ -771,6 +822,7 @@ class Util(object):
             else:
                 uid=uuid.uuid4().hex
                 m={"action":"set_friend_add_request","params":{"flag":flag,"approve":approve,"remark":remark},"echo":uid}
+                logger.info(f"处理好友请求: {m['params']['flag']} {m['params']['approve']} {m['params']['remark']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid,timeout=timeout)
@@ -790,11 +842,13 @@ class Util(object):
         if self.check_auth(auth,'set_friend_add_request'):
             if remark is None:
                 m={"action":"set_friend_add_request_async","params":{"flag":flag,"approve":approve}}
+                logger.info(f"处理好友请求: {m['params']['flag']} {m['params']['approve']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
             else:
                 m={"action":"set_friend_add_request_async","params":{"flag":flag,"approve":approve,"remark":remark}}
+                logger.info(f"处理好友请求: {m['params']['flag']} {m['params']['approve']} {m['params']['remark']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
@@ -807,6 +861,7 @@ class Util(object):
             if reason is None:
                 uid=uuid.uuid4().hex
                 m={"action":"set_group_add_request","params":{"flag":flag,"sub_type":sub_type,"approve":approve},"echo":uid}
+                logger.info(f"处理加群请求: {m['params']['flag']} {m['params']['sub_type']} {m['params']['approve']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid,timeout=timeout)
@@ -821,6 +876,7 @@ class Util(object):
             else:
                 uid=uuid.uuid4().hex
                 m={"action":"set_group_add_request","params":{"flag":flag,"sub_type":sub_type,"approve":approve,"reason":reason},"echo":uid}
+                logger.info(f"处理加群请求: {m['params']['flag']} {m['params']['sub_type']} {m['params']['approve']} {m['params']['reason']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 ret=self.waitFor(uid,timeout=timeout)
@@ -840,11 +896,13 @@ class Util(object):
         if self.check_auth(auth,'set_group_add_request'):
             if reason is None:
                 m={"action":"set_group_add_request_async","params":{"flag":flag,"sub_type":sub_type,"approve":approve}}
+                logger.info(f"处理加群请求: {m['params']['flag']} {m['params']['sub_type']} {m['params']['approve']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
             else:
                 m={"action":"set_group_add_request_async","params":{"flag":flag,"sub_type":sub_type,"approve":approve,"reason":reason}}
+                logger.info(f"处理加群请求: {m['params']['flag']} {m['params']['sub_type']} {m['params']['approve']} {m['params']['reason']}")
                 m=json.dumps(m)
                 variable.ws.send(m)
                 return True,'async'
@@ -1259,6 +1317,12 @@ class Util(object):
         if self.check_auth(auth,'plugin_control'):
             if action not in ['enable','disable','reload','load','unload','register','unregister']:
                 return False,'action is invalid'
+            if action=="get_list":
+                try:
+                    plugin_list = variable.loader.get_plugin_list()
+                    return True,plugin_list
+                except Exception as e:
+                    return False,str(e)
             if plugin=="":
                 return False,'plugin is empty'
             if action=="load":
@@ -1303,6 +1367,8 @@ class Util(object):
                     return True,'success'
                 except Exception as e:
                     return False,str(e)
+            else:
+                return False,'action is invalid'
         else:
             logger.debug(f'插件权限不足')
             return False,'Permission Denied'

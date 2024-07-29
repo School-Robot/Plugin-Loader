@@ -120,6 +120,7 @@
 |`honor`|群成员荣誉变更|否|
 |`friend_request`|加好友请求|否|
 |`group_request`|加群请求|否|
+|`raw_ws_process`|处理原始WebSocket信息|否|
 
 ### 优先级
 
@@ -504,6 +505,18 @@
 |返回类型|说明|
 |-|-|
 |`bool`|是否拦截消息，优先级小于等于`10000`时无法拦截|
+
+#### `raw_ws_process`
+
+参数
+
+|字段名|数据类型|可能的值|说明|
+|-|-|-|-|
+|`msg`|`dict`|-|原始WebSocket消息|
+
+返回值
+
+无
 
 ### API列表
 
@@ -1549,14 +1562,25 @@
 |字段名|数据类型|默认值|说明|
 |-|-|-|-|
 |`auth`|`str`|-|权限ID|
-|`action`|`str`|-|操作，包括`load`、`register`、`enable`、`disable`、`unregister`、`unload`分别对应生命周期,`reload`重载|
+|`action`|`str`|-|操作，包括`load`、`register`、`enable`、`disable`、`unregister`、`unload`分别对应生命周期,`reload`重载,`get_list`获取插件列表|
 |`plugin`|`str`|-|操作为`load`时为文件名或目录名，其他为ID|
 
 数据返回值
 
 |类型|说明|
 |-|-|
-|`str`|状态说明|
+|`str`、`dict`|状态说明，返回值为`dict`时为数据内容|
+
+数据内容
+
+|字段名|类型|说明|
+|-|-|-|
+|`infos`|`dict`|插件加载原始信息|
+|`methods`|`dict`|插件注册的方法|
+|`registers`|`dict`|注册的插件信息|
+|`enables`|`list`|启用的插件列表|
+|`commands`|`dict`|插件注册的命令|
+|`auths`|`dict`|插件注册的权限|
 
 #### `send_ws_msg`
 

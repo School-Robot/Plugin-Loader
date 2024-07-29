@@ -311,7 +311,7 @@ class PluginLoader(object):
                 return
         for id in self.plugin_infos:
             if filename==self.plugin_infos[id]['name']:
-                logger.error(f"插件 {filename} 已经被加载")
+                logger.warning(f"插件 {filename} 已经被加载")
                 return
         try:
             if filename in variable.config['plugin']:
@@ -321,9 +321,6 @@ class PluginLoader(object):
                     variable.config['plugin'][filename]['load']=True
             else:
                 variable.config['plugin'][filename]={'load':True}
-            if 'plugins.'+filename in sys.modules:
-                logger.warning(f"插件 {filename} 已经被加载")
-                return
             plugin=importlib.import_module('plugins.'+filename)
             logger.debug(plugin)
             id=plugin.plugin_id
@@ -577,3 +574,6 @@ class PluginLoader(object):
                     process=getattr(self.plugin_registers[plugin],self.plugin_commands[plugin][command])
                     process(cmd[1:])
                     del process
+
+    def get_plugin_list(self):
+        return {"infos":self.plugin_infos,"methods":self.plugin_methods,"registers":self.plugin_registers,"enables":self.plugin_enables,"commands":self.plugin_commands,"auths":self.plugin_auths}
