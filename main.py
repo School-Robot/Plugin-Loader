@@ -1,4 +1,3 @@
-import logging
 import json
 import threading
 import time
@@ -63,10 +62,13 @@ def processCommand(cmd):
     else:
         variable.loader.processPluginCommand(cmd)
 
-logging.basicConfig(level=logging.DEBUG,format='%(asctime)s [%(name)s] [%(levelname)s] %(message)s')
-logger=logging.getLogger("Main")
+logger=variable.log.getChild("Main")
 def main():
     global variable
+    if os.path.exists('data')==False:
+        os.mkdir('data')
+    if os.path.exists('plugins')==False:
+        os.mkdir('plugins')
     try:
         open('config.json','r').close()
     except:
@@ -118,9 +120,9 @@ def main():
     variable.loader.register_plugins()
     variable.loader.enable_plugins()
     def ws_mon():
-        logger=logging.getLogger("WebSocket Monitor")
-        ws_retry=0
         global variable
+        logger=variable.log.getChild("WebSocket Monitor")
+        ws_retry=0
         while True:
             if variable.main_stop:
                 logger.info("接收到停止命令")

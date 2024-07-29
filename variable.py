@@ -1,3 +1,4 @@
+from log import loggerClass
 class Variable(object):
     processer=None
     loader=None
@@ -7,5 +8,6 @@ class Variable(object):
     bot_id=None
     main_stop=False
     config=None
+    log=loggerClass
 
 variable=Variable()

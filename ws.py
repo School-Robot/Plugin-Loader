@@ -1,12 +1,9 @@
 import websocket
-import json
-import logging
 import threading
 
 from variable import variable
 
-logging.basicConfig(level=logging.DEBUG,format='%(asctime)s [%(name)s] [%(levelname)s] %(message)s')
-logger=logging.getLogger('WebSocket')
+logger=variable.log.getChild('WebSocket')
 class WS(object):
     api_url=None
     token=None

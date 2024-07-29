@@ -1,11 +1,10 @@
 import json
 import time
 import uuid
-import logging
 
 from variable import variable
-logging.basicConfig(level=logging.DEBUG,format='%(asctime)s [%(name)s] [%(levelname)s] %(message)s')
-logger=logging.getLogger("Util")
+
+logger=variable.log.getChild("Util")
 class Util(object):
     retmsg={}
 

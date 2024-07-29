@@ -1,15 +1,12 @@
 import importlib
 import os
-import logging
 import sys
 import gc
-import json
 import uuid
 
 from variable import variable
 
-logging.basicConfig(level=logging.DEBUG,format='%(asctime)s [%(name)s] [%(levelname)s] %(message)s')
-logger=logging.getLogger("Loader")
+logger=variable.log.getChild("Loader")
 class PluginInfo(object):
     plugin_version=None
     plugin_id=None
@@ -110,7 +107,7 @@ class PluginLoader(object):
                 if not os.path.exists('data/'+id):
                     os.makedirs('data/'+id)
                 data_dir=os.path.abspath('data/'+id)
-                plugin_logger=logging.getLogger(self.plugin_infos[id]['info'].plugin_name)
+                plugin_logger=variable.log.getChild(self.plugin_infos[id]['info'].plugin_name)
                 register=getattr(plugin,self.plugin_methods[id]['register']['func'])
                 register(plugin_logger,variable.util,variable.bot,data_dir)
                 plugin.status="registered"
@@ -302,6 +299,18 @@ class PluginLoader(object):
     
     def load_plugin(self,filename):
         logger.info(f"加载插件: {filename}")
+        if not os.path.isdir('plugins/'+filename):
+            logger.warning(f"插件 {filename} 不存在")
+            return
+        if filename.endswith('.py'):
+            filename=filename[:-3]
+        if os.path.isfile('plugins/'+filename+'.py.py'):
+            filename+='.py'
+        elif os.path.isfile('plugins/'+filename+'.py'):
+            filename=filename
+        else:
+            logger.warning(f"插件 {filename} 不存在")
+            return
         for id in self.plugin_infos:
             if filename==self.plugin_infos[id]['name']:
                 logger.error(f"插件 {filename} 已经被加载")
@@ -314,6 +323,9 @@ class PluginLoader(object):
                     variable.config['plugin'][filename]['load']=True
             else:
                 variable.config['plugin'][filename]={'load':True}
+            if 'plugins.'+filename in sys.modules:
+                logger.warning(f"插件 {filename} 已经被加载")
+                return
             plugin=importlib.import_module('plugins.'+filename)
             logger.debug(plugin)
             id=plugin.plugin_id
@@ -359,14 +371,16 @@ class PluginLoader(object):
                         variable.config['plugin'][self.plugin_infos[id]['name']]['reg']=True
                 else:
                     variable.config['plugin'][self.plugin_infos[id]['name']]={'reg':True}
+                if id in self.plugin_registers:
+                    logger.warning(f"插件 {id} 已经被注册")
+                    return
                 plugin=self.plugin_infos[id]['info'].plugin.Plugin()
                 methods=plugin.plugin_methods
                 self.plugin_methods[id]=methods
-                plugin_logger=logging.getLogger(self.plugin_infos[id]['info'].plugin_name)
+                plugin_logger=variable.log.getChild(self.plugin_infos[id]['info'].plugin_name)
                 if not os.path.exists('data/'+id):
                     os.makedirs('data/'+id)
                 data_dir=os.path.abspath('data/'+id)
-                plugin_logger=logging.getLogger(self.plugin_infos[id]['info'].plugin_name)
                 register=getattr(plugin,self.plugin_methods[id]['register']['func'])
                 register(plugin_logger,variable.util,variable.bot,data_dir)
                 plugin.status="registered"
@@ -398,6 +412,9 @@ class PluginLoader(object):
                         variable.config['plugin'][self.plugin_infos[id]['name']]['load']=True
                 else:
                     variable.config['plugin'][self.plugin_infos[id]['name']]={'load':True}
+                if id in self.plugin_enables:
+                    logger.warning(f"插件 {id} 已经被启用")
+                    return
                 plugin=self.plugin_registers[id]
                 commands=plugin.plugin_commands
                 self.plugin_commands[id]=commands
@@ -490,6 +507,9 @@ class PluginLoader(object):
                 logger.error(f"插件: {id} 出现错误")
                 logger.exception(e)
                 logger.info(f"注销失败: {id}")
+        else:
+            logger.error(f"插件: {id} 未注册")
+            return
         
     
     def unload_plugin(self,id):
