@@ -300,17 +300,15 @@ class PluginLoader(object):
     def load_plugin(self,filename):
         logger.info(f"加载插件: {filename}")
         if not os.path.isdir('plugins/'+filename):
-            logger.warning(f"插件 {filename} 不存在")
-            return
-        if filename.endswith('.py'):
-            filename=filename[:-3]
-        if os.path.isfile('plugins/'+filename+'.py.py'):
-            filename+='.py'
-        elif os.path.isfile('plugins/'+filename+'.py'):
-            filename=filename
-        else:
-            logger.warning(f"插件 {filename} 不存在")
-            return
+            if filename.endswith('.py'):
+                filename=filename[:-3]
+            if os.path.isfile('plugins/'+filename+'.py.py'):
+                filename+='.py'
+            elif os.path.isfile('plugins/'+filename+'.py'):
+                filename=filename
+            else:
+                logger.warning(f"插件 {filename} 不存在")
+                return
         for id in self.plugin_infos:
             if filename==self.plugin_infos[id]['name']:
                 logger.error(f"插件 {filename} 已经被加载")
