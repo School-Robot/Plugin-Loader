@@ -7,7 +7,8 @@ if not os.path.exists('logs'):
 
 loggerClass = logging.getLogger("Plugin-Loader")
 loggerClass.setLevel(logging.DEBUG)
-handler = logging.handlers.TimedRotatingFileHandler("logs/loader.log", when="midnight", interval=1, encoding="utf-8")
+log_path = os.path.join("logs", "loader.log")
+handler = logging.handlers.TimedRotatingFileHandler(log_path, when="midnight", interval=1, encoding="utf-8")
 formatter = logging.Formatter('%(asctime)s [%(threadName)s] [%(name)s] [%(levelname)s] %(message)s')
 handler.setFormatter(formatter)
 handler.setLevel(logging.DEBUG)
