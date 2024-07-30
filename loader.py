@@ -390,9 +390,9 @@ class PluginLoader(object):
                 methods = plugin.plugin_methods
                 self.plugin_methods[id] = methods
                 plugin_logger = variable.log.getChild(self.plugin_infos[id]['info'].plugin_name)
-                if not os.path.exists('data/' + id):
-                    os.makedirs('data/' + id)
-                data_dir = os.path.abspath('data/' + id)
+                if not os.path.exists(os.path.join('data', id)):
+                    os.makedirs(os.path.join('data', id))
+                data_dir = os.path.abspath(os.path.join('data', id))
                 register = getattr(plugin, self.plugin_methods[id]['register']['func'])
                 register(plugin_logger, variable.util, variable.bot, data_dir)
                 plugin.status = "registered"
