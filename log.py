@@ -2,7 +2,7 @@ import logging
 import logging.handlers
 import os
 
-if os.path.exists('logs') == False:
+if not os.path.exists('logs'):
     os.mkdir('logs')
 
 loggerClass = logging.getLogger("Plugin-Loader")
