@@ -13,7 +13,7 @@ class Processer(object):
             if "echo" in msg:
                 variable.util.put_retmsg(msg)
                 return
-            if msg['self_id'] != variable.bot_id:
+            if 'seld_id' in msg and msg['self_id'] != variable.bot_id:
                 return
             else:
                 raw_thread = threading.Thread(target=self.raw_ws_process, args=(msg,))
