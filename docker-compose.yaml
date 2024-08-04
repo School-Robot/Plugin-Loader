@@ -1,0 +1,15 @@
+version: '3'
+services:
+  school-bot-plugin-loader:
+    build:
+      context: .
+    image: school-bot-plugin-loader
+    container_name: School-Bot-Plugin-Loader
+    volumes:
+      - ./data/config:/school-robot/config
+      - ./data/plugins:/school-robot/plugins
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    environment:
+      - school_robot_docker_mode=1

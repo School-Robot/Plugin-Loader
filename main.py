@@ -76,10 +76,21 @@ def main():
         os.mkdir('data')
     if os.path.exists('plugins') == False:
         os.mkdir('plugins')
-    try:
-        open('config.json', 'r').close()
-    except:
-        logger.info('首次使用，请先进行配置')
+
+    # 读取配置文件
+    config_file_path = './config.json'
+    is_docker = os.environ.get('school_robot_docker_mode') == '1'
+    if is_docker:
+        config_dir = './config'
+        config_file_path = os.path.join(config_dir, 'config.json')
+        os.makedirs(config_dir, exist_ok=True)
+        logger.info("[+] 检测到鲸鱼！")
+        logger.info('[+] TIPS：如果您首次在Docker中使用，或者需要维护，请通过 \033[36m docker attach School-Bot-Plugin-Loader(School-Bot-Plugin-Loader为容器名) \033[0m 进入容器shell手动维护,结束维护输入\033[36m exit \033[0m \033[0m')
+    else:
+        config_file_path = './config.json'
+
+    if not os.path.exists(config_file_path) or os.path.getsize(config_file_path) == 0:
+        logger.info('[-] 首次使用，请先进行配置， 配置文件不存在或为空，请先进行配置')
         api_url = input('请输入WebSocket地址: ')
         if api_url == '':
             logger.error('WebSocket地址不能为空')
