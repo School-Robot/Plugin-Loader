@@ -6,6 +6,7 @@ services:
     image: school-bot-plugin-loader
     container_name: School-Bot-Plugin-Loader
     volumes:
+      - ./data/data:/school-robot/data
       - ./data/logs:/school-robot/logs
       - ./data/config:/school-robot/config
       - ./data/plugins:/school-robot/plugins
