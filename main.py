@@ -104,9 +104,9 @@ def main():
         if token == '':
             token = None
         config = {'conn': {'api_url': api_url, 'bot_id': bot_id, 'token': token}, 'plugin': {}}
-        with open('config.json', 'w') as c:
+        with open(config_file_path, 'w') as c:
             c.write(json.dumps(config))
-    with open('config.json', 'r') as c:
+    with open(config_file_path, 'r') as c:
         try:
             variable.config = json.loads(c.read())
         except:
