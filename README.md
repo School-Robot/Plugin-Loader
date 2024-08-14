@@ -41,3 +41,6 @@ pip install websocket-client -i https://pypi.tuna.tsinghua.edu.cn/simple
 - [OneBot v11](https://11.onebot.dev)
 - 酷Q
 - 所有测试人员
+
+## 友链
+[W1ndys的模块加载器](https://github.com/W1ndys-bot/Module-Loader)
