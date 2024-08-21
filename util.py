@@ -1513,7 +1513,7 @@ class Util(object):
                 else:
                     return [{'type': 'image', 'data': {'file': file}}]
 
-    def cq_image(self, file, type, cache=1, proxy=1, timeout=None):
+    def cq_image(self, file, type="", cache=1, proxy=1, timeout=None):
         if file == "":
             return '[图片]'
         else:
