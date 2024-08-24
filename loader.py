@@ -45,7 +45,7 @@ class PluginLoader(object):
             'get_group_honor_info': '获取群荣耀信息', 'get_cookies': '获取Cookies', 'get_csrf_token': '获取CSRF Token',
             'get_credentials': '获取QQ相关接口凭证', 'get_record': '获取语音', 'get_image': '获取图片', 'get_status': '获取运行状态',
             'get_version_info': '获取版本信息', 'set_restart': '重启OneBot', 'clean_cache': '清理缓存', 'plugin_control': '插件控制',
-            'send_ws_msg': '发送WebSocket消息', 'get_ws_msg': '获取WebSocket返回内容','recall_msg':'撤回消息'}
+            'send_ws_msg': '发送WebSocket消息', 'get_ws_msg': '获取WebSocket返回内容'}
 
     def __init__(self):
         self.load_plugins()
