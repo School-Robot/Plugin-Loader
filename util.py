@@ -160,7 +160,6 @@ class Util(object):
             "echo": uid
         }
         logger.info(f"向群 [{group_id}] 发送合并转发消息")
-        # logger.info(msg)
         msg = json.dumps(msg)
         variable.ws.send(msg)
         ret = self.waitFor(uid, timeout=timeout)
