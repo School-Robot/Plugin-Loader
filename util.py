@@ -117,6 +117,160 @@ class Util(object):
         else:
             logger.debug(f'插件权限不足')
             return False, 'Permission Denied'
+        
+    def send_group_forward_msg(self, auth, group_id, messages, timeout=5):
+        """
+        发送合并转发消息到群。
+        参数:
+        - auth (str): 调用此API的插件认证信息。
+        - group_id (int): 目标群号。
+        - messages (list): 消息节点列表。每个元素可以是以下格式之一：
+            - dict: 完整的消息节点，格式为 {"type": "node", "data": {...}}
+            - tuple 或 list: (user_id, nickname, content) 或 [user_id, nickname, content]
+            - str: 纯文本消息内容
+            - int: 作为user_id，将自动获取昵称并使用空字符串作为内容
+            - 样例：
+                - messages = [
+                    "你好，我是插件加载器哦~",
+                    (10086, "User2", "How are you?"),
+                    {"type": "node", "data": {"user_id": "123456", "nickname": "User1", "content": "Hello"}},
+                    123 #message_id
+                ]
+                code,ret = self.util.send_group_forward_msg(self.auth, group_id, messages)
+
+        timeout (int, 可选): 等待响应的超时时间（秒）。默认为5秒。
+        返回:
+        tuple: (bool, str|dict)
+            - 第一个元素表示是否成功
+            - 第二个元素在成功时为响应数据，失败时为错误信息
+        """
+        if (not self.check_auth(auth, 'send_group_forward_msg')) and (not self.check_auth(auth,'send_group_msg')):
+            logger.warning(f'插件权限不足,请检查是否存在 send_group_forward_msg 或 send_group_msg')
+            return False, 'Permission Denied'
+        if not messages:
+            return False, 'messages is empty'
+        processed_messages = self._process_forward_messages(auth,group_id, messages)
+        uid = uuid.uuid4().hex
+        msg = {
+            "action": "send_group_forward_msg",
+            "params": {
+                "group_id": group_id,
+                "messages": processed_messages
+            },
+            "echo": uid
+        }
+        logger.info(f"向群 [{group_id}] 发送合并转发消息")
+        msg = json.dumps(msg)
+        variable.ws.send(msg)
+        ret = self.waitFor(uid, timeout=timeout)
+        if ret['status'] == 'ok':
+            return True, ret['data']
+        elif ret['status'] == 'async':
+            return True, 'async'
+        elif ret['status'] == 'timeout':
+            return False, 'timeout'
+        else:
+            return False, 'error'
+            
+
+    
+
+    def _process_forward_messages(self,auth,group_id,messages):
+        """
+        合并转发解析
+        """
+        processed_messages = []
+        for msg in messages:
+            if isinstance(msg, dict):
+                if msg.get('type') == 'node' and 'data' in msg:
+                    processed_messages.append(msg)
+                else:
+                    raise ValueError(f"[合并转发处理] 不合法的合并转发结构: {msg}")
+            elif isinstance(msg, (tuple, list)):
+                if len(msg) != 3:
+                    raise ValueError(f"[合并转发处理] 元组或者列表必须包含三个元素: {msg}")
+                uin, name, content = msg
+                node = {
+                    "type": "node",
+                    "data": {
+                        "uin": str(uin),
+                        "name": name,
+                        "content": content
+                    }
+                }
+                processed_messages.append(node)
+            elif isinstance(msg, str):
+                node = {
+                    "type": "node",
+                    "data": {
+                        # "uin": "10000",  
+                        # "name": "Anonymous",  
+                        "content": msg
+                    }
+                }
+                processed_messages.append(node)
+            elif isinstance(msg, int):
+                node = {
+                    "type": "node",
+                    "data": {
+                        "id": str(msg)
+                    }
+                }
+                processed_messages.append(node)
+            else:
+                raise ValueError(f"[合并转发处理] 不合法的消息格式: {msg}")
+        return processed_messages
+    
+    def get_group_member_info(self,auth, group_id, user_id):
+        """
+        获得用户信息：
+        参数:
+        - auth (str): 调用此API的插件认证信息。
+        - group_id (int): 目标群号。
+        - user_id (int): 用户的账号ID          
+        
+        返回信息见：<https://docs.go-cqhttp.org/api/> 的获得群成员信息
+        以下是常见信息：
+            - nickname : 昵称
+            - qq_level : 等级
+            - join_time: 1724467603, 
+            - last_sent_time: 1724467603
+        """
+        if not self.check_auth(auth,'send_group_msg'):
+            logger.warning(f'插件权限不足，你需要：send_group_msg 权限')
+            return False, 'Permission Denied'
+        logger.info(f"正在获得群[{group_id}]成员[{user_id}]的信息")
+        uid = uuid.uuid4().hex
+        msg = {
+            "action": "get_group_member_info",
+            "params": {
+                "group_id": group_id,
+                "user_id": user_id
+            },
+            "echo": uid
+        }
+        msg = json.dumps(msg)
+        variable.ws.send(msg)
+        ret = self.waitFor(uid, timeout=3)
+        if ret['status'] == 'ok':
+            logger.info(ret['data'])
+            return True, ret['data']
+        if ret['status'] == 'async':
+            return True, 'async'
+        if ret['status'] == 'timeout':
+            return False, 'timeout'
+        return False, 'error'
+    
+    def recall_msg(self,auth,message_id):
+        """
+        权限：recall_msg 或 delete_msg
+        撤回消息：
+        参数:
+            - auth (str): 调用此API的插件认证信息。
+            - message_id (int): 消息 ID
+        """
+        return self.delete_msg(auth=auth,message_id=message_id)
+        
 
     def send_group_msg_rate_limit(self, auth, group_id, message, auto_escape=False):
         if self.check_auth(auth, 'send_group_msg'):
@@ -318,25 +472,25 @@ class Util(object):
             return False, 'Permission Denied'
 
     def delete_msg(self, auth, message_id, timeout=5):
-        if self.check_auth(auth, 'delete_msg'):
-            uid = uuid.uuid4().hex
-            m = {"action": "delete_msg", "params": {"message_id": message_id}, "echo": uid}
-            logger.info(f"撤回消息ID: {m['params']['message_id']}")
-            m = json.dumps(m)
-            variable.ws.send(m)
-            ret = self.waitFor(uid, timeout=timeout)
-            if ret['status'] == 'ok':
-                return True, 'success'
-            elif ret['status'] == 'async':
-                return True, 'async'
-            elif ret['status'] == 'timeout':
-                return False, 'timeout'
-            else:
-                return False, 'error'
-        else:
-            logger.debug(f'插件权限不足')
+        if (not self.check_auth(auth,'recall_msg')) and (not self.check_auth(auth,'delete_msg')):
+            logger.warning(f'插件权限不足，你需要：recall_msg 权限 或 delete_msg 权限')
             return False, 'Permission Denied'
-
+        
+        uid = uuid.uuid4().hex
+        m = {"action": "delete_msg", "params": {"message_id": message_id}, "echo": uid}
+        logger.info(f"撤回消息ID: {m['params']['message_id']}")
+        m = json.dumps(m)
+        variable.ws.send(m)
+        ret = self.waitFor(uid, timeout=timeout)
+        if ret['status'] == 'ok':
+            return True, 'success'
+        elif ret['status'] == 'async':
+            return True, 'async'
+        elif ret['status'] == 'timeout':
+            return False, 'timeout'
+        else:
+            return False, 'error'
+            
     def delete_msg_async(self, auth, message_id):
         if self.check_auth(auth, 'delete_msg'):
             m = {"action": "delete_msg_async", "params": {"message_id": message_id}}

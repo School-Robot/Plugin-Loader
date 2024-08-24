@@ -35,7 +35,7 @@ class PluginLoader(object):
     plugin_auths = {}
     auths = {}
     auth = {'send_private_msg': '发送私聊消息', 'send_group_msg': '发送群消息', 'send_msg': '发送消息', 'delete_msg': '撤回消息',
-            'get_msg': '获取消息', 'get_forward_msg': '获取合并转发消息', 'send_like': '发送好友赞', 'set_group_kick': '群组踢人',
+            'get_msg': '获取消息', 'get_forward_msg': '获取合并转发消息','send_group_forward_msg':'发送合并转发消息', 'send_like': '发送好友赞', 'set_group_kick': '群组踢人',
             'set_group_ban': '群组单人禁言', 'set_group_anonymous_ban': '群组匿名用户禁言', 'set_group_whole_ban': '群组全员禁言',
             'set_group_admin': '群组设置管理员', 'set_group_anonymous': '群组匿名', 'set_group_card': '设置群名片',
             'set_group_name': '设置群名', 'set_group_leave': '退出群组', 'set_group_special_title': '设置群组专属头衔',
