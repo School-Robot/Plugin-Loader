@@ -4,3 +4,4 @@ data/
 logs/
 config.json
 ./config/config.json
+.venv
