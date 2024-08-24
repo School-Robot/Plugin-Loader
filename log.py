@@ -46,9 +46,6 @@ class ColoredBase64Formatter(logging.Formatter):
         if isinstance(message, str):
             return self.data_size_pattern.sub(lambda m: f"<{m.group(1)}>", message)
         return message
-    # def _logger_debug_clean_abnormal_data(self, message):
-    #     # 移除不正常的 <6B> 标记
-    #     return re.sub(r'<6B>', '', message)
     
     def repl_base64(self, match):
         base64_data = match.group(0)
