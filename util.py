@@ -173,38 +173,7 @@ class Util(object):
             return False, 'error'
             
 
-    def send_group_forward_msg_async(self, auth, group_id, messages):
-        """
-        异步发送合并转发消息到群。
-
-        参数:
-        - auth (str): 调用此API的插件认证信息。
-        - group_id (int): 目标群号。
-        - messages (list): 消息节点列表。格式同 send_group_forward_msg 中的 messages 参数。
-
-        返回:
-        tuple: (bool, str)
-            - 第一个元素表示是否成功发送请求
-            - 第二个元素为 'async' 或错误信息
-        """
-        if self.check_auth(auth, 'send_group_forward_msg') or self.check_auth(auth,'send_group_msg'):
-            if not messages:
-                return False, 'messages is empty'
-            processed_messages = self._process_forward_messages(auth,group_id, messages)
-            msg = {
-                "action": "send_group_forward_msg_async",
-                "params": {
-                    "group_id": group_id,
-                    "messages": processed_messages
-                }
-            }
-            logger.info(f"向群 [{group_id}] 发送合并转发消息")
-            m = json.dumps(msg)
-            variable.ws.send(msg)
-            return True, 'async'
-        else:
-            logger.warning(f'插件权限不足')
-            return False, 'Permission Denied'
+    
 
     def _process_forward_messages(self,auth,group_id,messages):
         """
