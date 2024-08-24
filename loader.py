@@ -281,38 +281,39 @@ class PluginLoader(object):
     def list_plugins(self):
         for id in self.plugin_infos:
             if id in self.plugin_registers:
-                print("ID:", id, "状态:", self.plugin_registers[id].status, "插件名称:",
-                      self.plugin_infos[id]['info'].plugin_name, "插件版本:", self.plugin_infos[id]['info'].plugin_version)
+                logger.info("ID:", id, "状态:", self.plugin_registers[id].status, "插件名称:",
+                            self.plugin_infos[id]['info'].plugin_name, "插件版本:",
+                            self.plugin_infos[id]['info'].plugin_version)
             else:
-                print("ID:", id, "状态: not register")
+                logger.info("ID:", id, "状态: not register")
 
     def view_plugin(self, id):
         if id in self.plugin_registers:
-            print("ID:", id)
-            print("状态:", self.plugin_registers[id].status)
-            print("插件名称:", self.plugin_infos[id]['info'].plugin_name)
-            print("插件版本:", self.plugin_infos[id]['info'].plugin_version)
-            print("插件作者:", self.plugin_infos[id]['info'].plugin_author)
-            print("插件描述:", self.plugin_infos[id]['info'].plugin_desc)
-            print("注册的方法:")
+            logger.info("ID:", id)
+            logger.info("状态:", self.plugin_registers[id].status)
+            logger.info("插件名称:", self.plugin_infos[id]['info'].plugin_name)
+            logger.info("插件版本:", self.plugin_infos[id]['info'].plugin_version)
+            logger.info("插件作者:", self.plugin_infos[id]['info'].plugin_author)
+            logger.info("插件描述:", self.plugin_infos[id]['info'].plugin_desc)
+            logger.info("注册的方法:")
             for method in self.plugin_methods[id]:
-                print(method, self.plugin_methods[id][method]['desc'])
+                logger.info(method, self.plugin_methods[id][method]['desc'])
             if id in self.plugin_enables:
-                print("注册的命令:")
+                logger.info("注册的命令:")
                 for command in self.plugin_commands[id]:
-                    print(command)
-                print("申请的权限:")
+                    logger.info(command)
+                logger.info("申请的权限:")
                 for auth in self.plugin_auths[id]['auths']:
-                    print(auth, self.auth[auth])
+                    logger.info(auth, self.auth[auth])
         elif id in self.plugin_infos:
-            print("ID:", id)
-            print("状态:", "not register")
-            print("插件名称:", self.plugin_infos[id]['info'].plugin_name)
-            print("插件版本:", self.plugin_infos[id]['info'].plugin_version)
-            print("插件作者:", self.plugin_infos[id]['info'].plugin_author)
-            print("插件描述:", self.plugin_infos[id]['info'].plugin_desc)
+            logger.info("ID:", id)
+            logger.info("状态:", "not register")
+            logger.info("插件名称:", self.plugin_infos[id]['info'].plugin_name)
+            logger.info("插件版本:", self.plugin_infos[id]['info'].plugin_version)
+            logger.info("插件作者:", self.plugin_infos[id]['info'].plugin_author)
+            logger.info("插件描述:", self.plugin_infos[id]['info'].plugin_desc)
         else:
-            print("没有这个插件")
+            logger.warning("没有这个插件")
 
     def load_plugin(self, filename):
         logger.info(f"加载插件: {filename}")
