@@ -551,6 +551,7 @@
 |`get_group_member_info`|是|获取群成员信息|
 |`get_group_member_list`|是|获取群成员列表|
 |`get_group_honor_info`|是|获取群荣耀信息|
+|`mark_private_msg_as_read`|是|NapCat扩展api,设置私聊消息已读|
 |`get_cookies`|是|获取Cookies|
 |`get_csrf_token`|是|获取CSRF Token|
 |`get_credentials`|是|获取QQ相关接口凭证|
@@ -1311,6 +1312,25 @@
 |`nickname`|`str`|昵称|
 |`avatar`|`str`|头像URL|
 |`description`|`str`|荣誉描述|
+
+#### `mark_private_msg_as_read`
+
+参数
+
+|字段名|数据类型|默认值|说明|
+|-|-|-|-|
+|`user_id`|`int`|-|QQ号|
+|`timeout`|`int`|`5`|获取返回数据超时时间，单位为秒|
+
+数据返回值
+
+|类型|说明|
+|-|-|
+|`str`|状态说明|
+
+额外说明
+
+此api为[NapCatQQ](https://github.com/NapNeko/NapCatQQ)的[扩展api](https://napneko.github.io/zh-CN/develop/extends_api)
 
 #### `get_cookies`
 
