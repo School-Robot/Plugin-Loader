@@ -522,90 +522,90 @@
 
 使用工具类`Util`进行API调用，接口的返回类型为元组，分别为状态和数据，对字符串和消息段处理的接口直接返回数据
 
-|名称|是否需要权限|描述|
-|-|-|-|
-|`send_private_msg`|是|发送私聊消息|
-|`send_group_msg`|是|发送群消息|
-|`send_msg`|是|发送消息|
-|`delete_msg`|是|撤回消息|
-|`get_msg`|是|获取消息|
-|`get_forward_msg`|是|获取合并转发消息|
-|`send_like`|是|发送好友赞|
-|`set_group_kick`|是|群组踢人|
-|`set_group_ban`|是|群组单人禁言|
-|`set_group_anonymous_ban`|是|群组匿名用户禁言|
-|`set_group_whole_ban`|是|群组全员禁言|
-|`set_group_admin`|是|群组设置管理员|
-|`set_group_anonymous`|是|群组匿名|
-|`set_group_card`|是|设置群名片|
-|`set_group_name`|是|设置群名|
-|`set_group_leave`|是|退出群组|
-|`set_group_special_title`|是|设置群组专属头衔|
-|`set_friend_add_request`|是|处理加好友请求|
-|`set_group_add_request`|是|处理加群请求|
-|`get_login_info`|是|获取登录号信息|
-|`get_stranger_info`|是|获取陌生人信息|
-|`get_friend_list`|是|获取好友列表|
-|`get_group_info`|是|获取群信息|
-|`get_group_list`|是|获取群列表|
-|`get_group_member_info`|是|获取群成员信息|
-|`get_group_member_list`|是|获取群成员列表|
-|`get_group_honor_info`|是|获取群荣耀信息|
-|`mark_private_msg_as_read`|是|NapCat扩展api,设置私聊消息已读|
-|`get_cookies`|是|获取Cookies|
-|`get_csrf_token`|是|获取CSRF Token|
-|`get_credentials`|是|获取QQ相关接口凭证|
-|`get_record`|是|获取语音|
-|`get_image`|是|获取图片|
-|`can_send_image`|否| 检查是否可以发送图片|
-|`can_send_record`|否| 检查是否可以发送语音|
-|`get_status`|是|获取运行状态|
-|`get_version_info`|是|获取版本信息|
-|`set_restart`|是|重启OneBot|
-|`clean_cache`|是|清理缓存|
-|`plugin_control`|是|插件控制|
-|`send_ws_msg`|是|发送WebSocket消息|
-|`get_ws_msg`|是|获取WebSocket返回内容|
-|`escape`|否|转义字符|
-|`unescape`|否|反转义字符|
-|`seg_text`|否|文本消息段|
-|`cq_text`|否|文本CQ码|
-|`seg_face`|否|表情消息段|
-|`cq_face`|否|表情CQ码|
-|`seg_image`|否|图片消息段|
-|`cq_image`|否|图片CQ码|
-|`seg_record`|否|语音消息段|
-|`cq_record`|否|语音CQ码|
-|`seg_video`|否|视频消息段|
-|`cq_video`|否|视频CQ码|
-|`seg_at`|否|At消息段|
-|`cq_at`|否|At CQ码|
-|`seg_rps`|否|猜拳消息段|
-|`cq_rps`|否|猜拳CQ码|
-|`seg_dice`|否|骰子消息段|
-|`cq_dice`|否|骰子CQ码|
-|`seg_shake`|否|窗口抖动消息段|
-|`cq_shake`|否|窗口抖动CQ码|
-|`seg_poke`|否|戳一戳消息段|
-|`cq_poke`|否|戳一戳CQ码|
-|`seg_anonymous`|否|匿名消息段|
-|`cq_anonymous`|否|匿名CQ码|
-|`seg_share`|否|分享消息段|
-|`cq_share`|否|分享CQ码|
-|`seg_contact`|否|推荐消息段|
-|`cq_contact`|否|推荐CQ码|
-|`seg_location`|否|位置消息段|
-|`cq_location`|否|位置CQ码|
-|`seg_music`|否|音乐消息段|
-|`cq_music`|否|音乐CQ码|
-|`seg_reply`|否|回复消息段|
-|`cq_reply`|否|回复CQ码|
-|`seg_node`|否|转发消息段|
-|`cq_node`|否|转发CQ码|
-|`seg_xml`|否|XML消息段|
-|`cq_xml`|否|XML CQ码|
-|`seg_json`|否|JSON消息段|
-|`cq_json`|否|JSON CQ码|
+|名称|是否需要权限|描述|备注|
+|-|-|-|-|
+|`send_private_msg`|是|发送私聊消息||
+|`send_group_msg`|是|发送群消息||
+|`send_msg`|是|发送消息||
+|`delete_msg`|是|撤回消息||
+|`get_msg`|是|获取消息||
+|`get_forward_msg`|是|获取合并转发消息||
+|`send_like`|是|发送好友赞||
+|`set_group_kick`|是|群组踢人||
+|`set_group_ban`|是|群组单人禁言||
+|`set_group_anonymous_ban`|是|群组匿名用户禁言||
+|`set_group_whole_ban`|是|群组全员禁言||
+|`set_group_admin`|是|群组设置管理员||
+|`set_group_anonymous`|是|群组匿名||
+|`set_group_card`|是|设置群名片||
+|`set_group_name`|是|设置群名||
+|`set_group_leave`|是|退出群组||
+|`set_group_special_title`|是|设置群组专属头衔||
+|`set_friend_add_request`|是|处理加好友请求||
+|`set_group_add_request`|是|处理加群请求||
+|`get_login_info`|是|获取登录号信息||
+|`get_stranger_info`|是|获取陌生人信息||
+|`get_friend_list`|是|获取好友列表||
+|`get_group_info`|是|获取群信息||
+|`get_group_list`|是|获取群列表||
+|`get_group_member_info`|是|获取群成员信息||
+|`get_group_member_list`|是|获取群成员列表||
+|`get_group_honor_info`|是|获取群荣耀信息||
+|`mark_private_msg_as_read`|是|设置私聊消息已读|NapCat扩展api|
+|`get_cookies`|是|获取Cookies||
+|`get_csrf_token`|是|获取CSRF Token||
+|`get_credentials`|是|获取QQ相关接口凭证||
+|`get_record`|是|获取语音||
+|`get_image`|是|获取图片||
+|`can_send_image`|否| 检查是否可以发送图片||
+|`can_send_record`|否| 检查是否可以发送语音||
+|`get_status`|是|获取运行状态||
+|`get_version_info`|是|获取版本信息||
+|`set_restart`|是|重启OneBot||
+|`clean_cache`|是|清理缓存||
+|`plugin_control`|是|插件控制||
+|`send_ws_msg`|是|发送WebSocket消息||
+|`get_ws_msg`|是|获取WebSocket返回内容||
+|`escape`|否|转义字符||
+|`unescape`|否|反转义字符||
+|`seg_text`|否|文本消息段||
+|`cq_text`|否|文本CQ码||
+|`seg_face`|否|表情消息段||
+|`cq_face`|否|表情CQ码||
+|`seg_image`|否|图片消息段||
+|`cq_image`|否|图片CQ码||
+|`seg_record`|否|语音消息段||
+|`cq_record`|否|语音CQ码||
+|`seg_video`|否|视频消息段||
+|`cq_video`|否|视频CQ码||
+|`seg_at`|否|At消息段||
+|`cq_at`|否|At CQ码||
+|`seg_rps`|否|猜拳消息段||
+|`cq_rps`|否|猜拳CQ码||
+|`seg_dice`|否|骰子消息段||
+|`cq_dice`|否|骰子CQ码||
+|`seg_shake`|否|窗口抖动消息段||
+|`cq_shake`|否|窗口抖动CQ码||
+|`seg_poke`|否|戳一戳消息段||
+|`cq_poke`|否|戳一戳CQ码||
+|`seg_anonymous`|否|匿名消息段||
+|`cq_anonymous`|否|匿名CQ码||
+|`seg_share`|否|分享消息段||
+|`cq_share`|否|分享CQ码||
+|`seg_contact`|否|推荐消息段||
+|`cq_contact`|否|推荐CQ码||
+|`seg_location`|否|位置消息段||
+|`cq_location`|否|位置CQ码||
+|`seg_music`|否|音乐消息段||
+|`cq_music`|否|音乐CQ码||
+|`seg_reply`|否|回复消息段||
+|`cq_reply`|否|回复CQ码||
+|`seg_node`|否|转发消息段||
+|`cq_node`|否|转发CQ码||
+|`seg_xml`|否|XML消息段||
+|`cq_xml`|否|XML CQ码||
+|`seg_json`|否|JSON消息段||
+|`cq_json`|否|JSON CQ码||
 
 
 #### `send_private_msg`
