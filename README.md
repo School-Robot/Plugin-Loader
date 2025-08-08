@@ -1,3 +1,5 @@
+# 项目已迁移至 https://gitlab.mcsog.top/School-Robot/Plugin-Loader
+
 # Plugin Loader
 
 ## 介绍
