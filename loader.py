@@ -42,7 +42,7 @@ class PluginLoader(object):
             'set_friend_add_request': '处理加好友请求', 'set_group_add_request': '处理加群请求', 'get_login_info': '获取登录号信息',
             'get_stranger_info': '获取陌生人信息', 'get_friend_list': '获取好友列表', 'get_group_info': '获取群信息',
             'get_group_list': '获取群列表', 'get_group_member_info': '获取群成员信息', 'get_group_member_list': '获取群成员列表',
-            'get_group_honor_info': '获取群荣耀信息', 'get_cookies': '获取Cookies', 'get_csrf_token': '获取CSRF Token',
+            'get_group_honor_info': '获取群荣耀信息','mark_private_msg_as_read':'设置私聊消息已读' ,'get_cookies': '获取Cookies', 'get_csrf_token': '获取CSRF Token',
             'get_credentials': '获取QQ相关接口凭证', 'get_record': '获取语音', 'get_image': '获取图片', 'get_status': '获取运行状态',
             'get_version_info': '获取版本信息', 'set_restart': '重启OneBot', 'clean_cache': '清理缓存', 'plugin_control': '插件控制',
             'send_ws_msg': '发送WebSocket消息', 'get_ws_msg': '获取WebSocket返回内容'}

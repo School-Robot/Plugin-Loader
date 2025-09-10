@@ -1276,6 +1276,33 @@ class Util(object):
             logger.debug(f'插件权限不足')
             return False, 'Permission Denied'
 
+    def mark_private_msg_as_read(self,auth,user_id,timeout=5):
+        """
+        NapCatQQ扩展api
+        https://napneko.github.io/zh-CN/develop/extends_api
+        ret:{"status":"ok","retcode":0,"data":null,"message":"","wording":"","echo":"123456"}
+        """
+        if self.check_auth(auth,'mark_private_msg_as_read'):
+            uid = uuid.uuid4().hex
+            m = {"action": "mark_private_msg_as_read",
+                "params": {"user_id": user_id}
+                ,"echo":uid}
+            logger.info(f"将[{user_id}]的私聊消息设为已读")
+            m=json.dumps(m)
+            variable.ws.send(m)
+            ret = self.waitFor(uid, timeout=timeout)
+            if ret['status']=='ok':
+                return True,'success'
+            elif ret['status'] == 'async':
+                return True, 'async'
+            elif ret['status'] == 'timeout':
+                return False, 'timeout'
+            else:
+                return False, 'error'
+        else:
+            logger.debug(f'插件权限不足')
+            return False, 'Permission Denied'
+
     def get_cookies(self, auth, domain=None, timeout=5):
         if self.check_auth(auth, 'get_cookies'):
             if domain is None:
